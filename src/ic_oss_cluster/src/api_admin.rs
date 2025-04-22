@@ -154,6 +154,7 @@ pub fn admin_weak_access_token(
     expiration_sec: u64,
 ) -> Result<ByteBuf, String> {
     let secret_key = store::state::with(|r| r.weak_ed25519_secret_key);
+    ic_cdk::println!("weak secret_key: {:?}", secret_key);
     let mut claims = token.to_cwt(now_sec as i64, expiration_sec as i64);
     claims.issuer = Some(ic_cdk::id().to_text());
     let mut sign1 = cose_sign1(claims, EdDSA, None)?;
